@@ -8,6 +8,10 @@ dotenv.config({
 
 connectDB()
       .then(() => {
+            app.get("/", (req, res) => {
+                  res.send("Welcome to the API");
+            });
+
             app.listen(process.env.PORT || 5050, () => {
                   console.log(
                         `Server running on port ${process.env.PORT || 5050}`

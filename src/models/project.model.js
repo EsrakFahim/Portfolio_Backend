@@ -58,18 +58,18 @@ const projectSchema = new Schema(
                   required: [true, "Project status is required"],
             },
             projectStartDate: {
-                  type: Date,
+                  type: String,
                   required: [true, "Project start date is required"],
             },
             projectEndDate: {
-                  type: Date,
+                  type: String,
                   required: [true, "Project end date is required"],
-                  validate: {
-                        validator: function (value) {
-                              return value > this.projectStartDate;
-                        },
-                        message: "End date must be after the start date",
-                  },
+                  // validate: {
+                  //       validator: function (value) {
+                  //             return value > this.projectStartDate;
+                  //       },
+                  //       message: "End date must be after the start date",
+                  // },
             },
             projectDuration: {
                   type: String,
@@ -86,15 +86,15 @@ const projectSchema = new Schema(
             },
             projectTechnologies: {
                   type: [String],
-                  required: [true, "At least one technology is required"],
+                  // required: [true, "At least one technology is required"],
             },
             projectAchievements: {
                   type: [String],
-                  required: [true, "At least one achievement is required"],
+                  // required: [true, "At least one achievement is required"],
             },
             projectClient: {
                   type: String,
-                  required: [true, "Client name is required"],
+                  // required: [true, "Client name is required"],
             },
             // projectClientFeedback: {
             //       type: String,

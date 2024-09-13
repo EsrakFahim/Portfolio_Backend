@@ -10,6 +10,7 @@ cloudinary.config({
 
 // Upload file to cloudinary
 const uploadFileCloudinary = async (file) => {
+      console.log("Uploading file to cloudinary", file);
       try {
             if (!file) return null;
 

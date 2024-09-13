@@ -32,19 +32,6 @@ const projectSchema = new Schema(
                   required: [true, "Project URL is required"],
                   match: [/^https?:\/\/.+\..+$/, "Please enter a valid URL"],
             },
-            projectImage: {
-                  type: [String],
-                  required: [
-                        true,
-                        "At least one project image URL is required",
-                  ],
-                  validate: {
-                        validator: function (value) {
-                              return value.length > 0;
-                        },
-                        message: "Project images cannot be empty",
-                  },
-            },
             projectCoverImage: {
                   type: String,
                   required: [true, "Project cover image is required"],
@@ -101,14 +88,6 @@ const projectSchema = new Schema(
                   type: [String],
                   required: [true, "At least one technology is required"],
             },
-            projectResponsibilities: {
-                  type: [String],
-                  required: [true, "At least one responsibility is required"],
-            },
-            projectChallenges: {
-                  type: [String],
-                  required: [true, "At least one challenge is required"],
-            },
             projectAchievements: {
                   type: [String],
                   required: [true, "At least one achievement is required"],
@@ -117,40 +96,40 @@ const projectSchema = new Schema(
                   type: String,
                   required: [true, "Client name is required"],
             },
-            projectClientFeedback: {
-                  type: String,
-                  required: [true, "Client feedback is required"],
-                  minlength: [
-                        10,
-                        "Client feedback must be at least 10 characters long",
-                  ],
-            },
-            projectClientFeedbackRating: {
-                  type: Number,
-                  required: [true, "Client feedback rating is required"],
-                  enum: {
-                        values: feedbackRatingEnum,
-                        message: "Feedback rating must be between 1 and 5",
-                  },
-            },
-            projectClientFeedbackDate: {
-                  type: Date,
-                  required: [true, "Feedback date is required"],
-            },
-            projectClientFeedbackURL: {
-                  type: String,
-                  required: [true, "Feedback URL is required"],
-                  match: [/^https?:\/\/.+\..+$/, "Please enter a valid URL"],
-            },
-            projectClientFeedbackImage: {
-                  type: String,
-                  required: [true, "Feedback image URL is required"],
-            },
-            projectClientFeedbackImageAlt: {
-                  type: String,
-                  required: [true, "Feedback image alt text is required"],
-                  maxlength: [150, "Alt text can't exceed 150 characters"],
-            },
+            // projectClientFeedback: {
+            //       type: String,
+            //       required: [true, "Client feedback is required"],
+            //       minlength: [
+            //             10,
+            //             "Client feedback must be at least 10 characters long",
+            //       ],
+            // },
+            // projectClientFeedbackRating: {
+            //       type: Number,
+            //       required: [true, "Client feedback rating is required"],
+            //       enum: {
+            //             values: feedbackRatingEnum,
+            //             message: "Feedback rating must be between 1 and 5",
+            //       },
+            // },
+            // projectClientFeedbackDate: {
+            //       type: Date,
+            //       required: [true, "Feedback date is required"],
+            // },
+            // projectClientFeedbackURL: {
+            //       type: String,
+            //       required: [true, "Feedback URL is required"],
+            //       match: [/^https?:\/\/.+\..+$/, "Please enter a valid URL"],
+            // },
+            // projectClientFeedbackImage: {
+            //       type: String,
+            //       required: [true, "Feedback image URL is required"],
+            // },
+            // projectClientFeedbackImageAlt: {
+            //       type: String,
+            //       required: [true, "Feedback image alt text is required"],
+            //       maxlength: [150, "Alt text can't exceed 150 characters"],
+            // },
       },
       {
             timestamps: true,

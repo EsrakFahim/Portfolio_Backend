@@ -41,6 +41,7 @@ const roleEnum = ["user", "admin"];
 
 // Password validation function
 const passwordReqCheck = function (value) {
+      console.log(value);
       const passwordRegex =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -53,7 +54,8 @@ const passwordReqCheck = function (value) {
             return false;
       }
 
-      const { userName, fullName, email } = this;
+      const { userName, fullName, userEmail } = this;
+      console.log(userName, fullName, userEmail);
       const lowerValue = value.toLowerCase();
 
       // Check if password contains the username
@@ -75,7 +77,7 @@ const passwordReqCheck = function (value) {
       }
 
       // Check if password contains the email
-      if (lowerValue.includes(email.toLowerCase())) {
+      if (lowerValue.includes(userEmail.toLowerCase())) {
             this.invalidate(
                   "userPassword",
                   "Password should not contain your email."
@@ -90,34 +92,34 @@ const userSchema = new Schema(
       {
             userName: {
                   type: String,
-                  required: [true, "User name is required"],
+                  required: true,
                   unique: true,
                   index: true,
-                  lowercase: true,
+                  // lowercase: true,
                   trim: true,
             },
             fullName: {
                   type: String,
-                  required: [true, "Full name is required"],
-                  lowercase: true,
+                  required: true,
+                  // lowercase: true,
             },
             userEmail: {
                   type: String,
-                  required: [true, "User email is required"],
+                  required: true,
                   unique: true,
                   index: true,
-                  lowercase: true,
+                  // lowercase: true,
                   trim: true,
             },
             userPhone: {
                   type: Number,
-                  required: [true, "User phone is required"],
+                  required: true,
                   unique: true,
                   index: true,
             },
             userPassword: {
                   type: String,
-                  required: [true, "User password is required"],
+                  required: true,
                   validate: {
                         validator: passwordReqCheck, // Passing the function as a reference
                   },
@@ -132,19 +134,16 @@ const userSchema = new Schema(
             },
             workPost: {
                   type: String,
-                  default: "",
-                  enum: {
-                        values: workPostEnum,
-                        message: "Invalid work post",
-                  },
+                  enum: { values: workPostEnum, message: "Invalid work post" },
+                  required: true,
             },
             refreshToken: {
                   type: String,
-                  default: null,
+                  default: "",
             },
             accessToken: {
                   type: String,
-                  default: null,
+                  default: "",
             },
             otp: {
                   type: String,

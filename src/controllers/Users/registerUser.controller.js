@@ -5,6 +5,9 @@ import { apiResponse } from "../../utils/apiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
+      console.log(req.body);
+      console.log(req.files);
+
       const {
             userName,
             fullName,
@@ -15,13 +18,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
       } = req.body;
 
       if (
-            !(
-                  userEmail ||
-                  userPhone ||
-                  userName ||
-                  userPassword ||
-                  fullName ||
-                  workPost
+            [userName, fullName, userEmail, userPassword].some(
+                  (field) => field?.trim() === ""
             )
       ) {
             throw new apiErrorHandler(400, "All fields are required");
@@ -73,27 +71,38 @@ const registerUser = asyncHandler(async (req, res, next) => {
             throw new apiErrorHandler(500, "Error uploading avatar");
       }
 
-      const user = await User.create(
-            {
-                  userName,
-                  fullName,
-                  userEmail,
-                  userPassword,
-                  userPhone,
-                  workPost,
-                  avatar: uploadAvatar.secure_url,
-                  avatarAlt: uploadAvatar.original_filename,
-            },
-            { new: true }
-      );
+      const user = await User.create({
+            userName,
+            fullName,
+            userEmail,
+            userPassword,
+            userPhone,
+            workPost,
+            avatar: uploadAvatar.secure_url,
+            avatarAlt: uploadAvatar.original_filename,
+      });
 
       if (!user) {
             throw new apiErrorHandler(500, "Error registering user");
       }
 
+      const createUser = await User.findById(user._id).select(
+            "-userPassword -refreshToken -accessToken -otp -otpExpiry"
+      );
+
+      if (!createUser) {
+            throw new apiErrorHandler(500, "Error creating user");
+      }
+
       return res
             .status(201)
-            .json(new apiResponse(201, "User registered successfully", user));
+            .json(
+                  new apiResponse(
+                        201,
+                        "User registered successfully",
+                        createUser
+                  )
+            );
 });
 
 export { registerUser };

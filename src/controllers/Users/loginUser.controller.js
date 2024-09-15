@@ -5,10 +5,10 @@ import { User } from "../../models/user.model.js";
 import { generateToken } from "../../Function/generateToken.js";
 
 const loginUser = asyncHandler(async (req, res, next) => {
-      const { userName, userEmail, userPassword } = req?.body;
+      const { userName, userEmail, userPhone, userPassword } = req?.body;
 
       if (
-            [userName, userEmail, userPassword].some(
+            [userName, userEmail, userPassword, userPhone].some(
                   (field) => field?.trim() === ""
             )
       ) {
@@ -29,7 +29,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
             throw new apiErrorHandler(400, "Invalid credentials");
       }
 
-      const { accessToken, refreshToken } =await generateToken(user?._id);
+      const { accessToken, refreshToken } = await generateToken(user?._id);
       console.log(refreshToken, accessToken);
 
       if (!refreshToken || !accessToken) {
@@ -58,4 +58,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
             );
 });
 
-export { loginUser };
+const logoutUser = asyncHandler(async (req, res, next) => {
+      // Clear the cookies
+});
+
+export { loginUser, logoutUser };

@@ -16,7 +16,7 @@ const generateToken = async (user_id) => {
             return { accessToken, refreshToken };
       } catch (error) {
             console.log("from token generator", error);
-            new apiErrorHandler(500, "Internal server error");
+            throw new apiErrorHandler(500, "Internal server error");
       }
 };
 

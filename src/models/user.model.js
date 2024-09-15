@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-// user work post enum values
+// user validation enum values
 const workPostEnum = [
       "developer",
       "designer",
@@ -37,6 +37,7 @@ const workPostEnum = [
       "technical manager",
       "other",
 ];
+const roleEnum = ["user", "admin"];
 
 // Password validation function
 const passwordReqCheck = function (value) {
@@ -108,6 +109,12 @@ const userSchema = new Schema(
                   lowercase: true,
                   trim: true,
             },
+            userPhone: {
+                  type: Number,
+                  required: [true, "User phone is required"],
+                  unique: true,
+                  index: true,
+            },
             userPassword: {
                   type: String,
                   required: [true, "User password is required"],
@@ -118,6 +125,10 @@ const userSchema = new Schema(
             role: {
                   type: String,
                   default: "user",
+                  enum: {
+                        values: roleEnum,
+                        message: "Invalid role",
+                  },
             },
             workPost: {
                   type: String,
@@ -144,6 +155,10 @@ const userSchema = new Schema(
                   default: null,
             },
             avatar: {
+                  type: String,
+                  required: true,
+            },
+            avatarAlt: {
                   type: String,
                   required: true,
             },

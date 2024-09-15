@@ -18,8 +18,14 @@ app.use(express.static("public")); // Serve static files from 'public' directory
 
 // Routes import
 import projectRouter from "./routes/project.route.js";
+import userRoute from "./routes/user.route.js";
 
 // Routes setup
+
+// #user routes
+app.use("/api/v1/user", userRoute);
+
+// # projects routes
 app.use("/api/v1/project", projectRouter); // Mount project routes
 
 export { app };

@@ -6,6 +6,7 @@ import {
       logoutUser,
 } from "../controllers/Users/loginUser.controller.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
+import { forgetPassword } from "../controllers/Users/forgetPassword.controller.js";
 
 const router = Router();
 
@@ -20,5 +21,7 @@ router.route("/register").post(
 );
 router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
+
+router.route("/password-forget").post(forgetPassword);
 
 export default router;

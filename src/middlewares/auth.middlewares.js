@@ -1,15 +1,18 @@
-import { apiErrorHandler } from "../utils/apiErrorHandler";
+import { User } from "../models/user.model.js";
+import { apiErrorHandler } from "../utils/apiErrorHandler.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
       try {
             const token =
-                  req?.cookie?.accessToken ||
-                  req?.headers("authorization")?.replace("Bearer ", "");
+                  req?.cookies?.accessToken ||
+                  req?.header("authorization")?.replace("Bearer ", "");
+
+            // console.log(token);
 
             if (!token) {
-                  throw new apiErrorHandler(401, "Unauthorized");
+                  throw new apiErrorHandler(401, "Unauthorized token");
             }
 
             const decodedToken = jwt.verify(
@@ -17,12 +20,14 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
                   process.env.ACCESS_TOKEN_SECRET
             );
 
-            const user = await User.findOne(decodedToken?._id).select(
+            console.log("decodedToken:", decodedToken);
+
+            const user = await User.findById(decodedToken?._id).select(
                   "-userPassword -otp -otpExpiry -refreshToken -accessToken"
             );
 
             if (!user) {
-                  throw new apiErrorHandler(401, "unauthorized");
+                  throw new apiErrorHandler(401, "unauthorized user");
             }
 
             req.user = user;
@@ -32,3 +37,5 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
             throw new apiErrorHandler(401, "Unauthorized");
       }
 });
+
+export { verifyJWT };

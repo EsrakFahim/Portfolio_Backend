@@ -59,7 +59,35 @@ const loginUser = asyncHandler(async (req, res, next) => {
 });
 
 const logoutUser = asyncHandler(async (req, res, next) => {
-      // Clear the cookies
+      const userLogout = await User.findByIdAndUpdate(
+            req?.user?._id,
+            {
+                  $set: {
+                        refreshToken: "",
+                        accessToken: "",
+                  },
+            },
+            {
+                  new: true,
+            }
+      );
+
+      console.log("from logout", userLogout);
+
+      if (!userLogout) {
+            throw new apiErrorHandler(500, "Internal server error");
+      }
+
+      const option = {
+            httpOnly: true,
+            secure: true,
+      };
+
+      return res
+            .status(200)
+            .clearCookie("refreshToken", option)
+            .clearCookie("accessToken", option)
+            .json(new apiResponse(200, {}, "Logout successful"));
 });
 
 export { loginUser, logoutUser };

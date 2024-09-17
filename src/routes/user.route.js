@@ -10,6 +10,7 @@ import {
       forgetPassword,
       resetPassword,
 } from "../controllers/Users/forgetPassword.controller.js";
+import { changePassword } from "../controllers/Users/changePassword.controller.js";
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.route("/logout").post(verifyJWT, logoutUser);
 
 router.route("/password-forget").post(forgetPassword);
 router.route("/reset-forget").post(resetPassword);
+router.route("/change-password").post(verifyJWT, changePassword);
 
 export default router;

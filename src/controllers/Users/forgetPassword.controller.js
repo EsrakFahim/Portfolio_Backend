@@ -44,4 +44,47 @@ const forgetPassword = asyncHandler(async (req, res, next) => {
       }
 });
 
-export { forgetPassword };
+const resetPassword = asyncHandler(async (req, res, next) => {
+      const { otp, newPassword, confirmPassword, userEmail } = req.body;
+
+      if (!otp || !newPassword || !confirmPassword) {
+            throw new apiErrorHandler(400, "All fields are required");
+      }
+
+      if (newPassword !== confirmPassword) {
+            throw new apiErrorHandler(
+                  400,
+                  "Your confirm password does not match"
+            );
+      }
+
+      const user = await User.findOne({ userEmail });
+
+      if (!user) {
+            throw new apiErrorHandler(404, "User not found");
+      }
+
+      if (user.otpExpiry < Date.now()) {
+            otp = null;
+            otpExpiry = null;
+            await user.save({ validateBeforeSave: false });
+            throw new apiErrorHandler(400, "Bad request", "OTP expired");
+      }
+
+      const checkOtp = await user.isOtpCorrect(otp);
+
+      if (!checkOtp) {
+            throw new apiErrorHandler(400, "Invalid OTP");
+      }
+
+      user.userPassword = newPassword;
+      user.otp = null;
+      user.otpExpiry = null;
+      await user.save({ validateBeforeSave: false });
+
+      return res
+            .status(200)
+            .json(new apiResponse(200, {}, "Password reset successful"));
+});
+
+export { forgetPassword, resetPassword };

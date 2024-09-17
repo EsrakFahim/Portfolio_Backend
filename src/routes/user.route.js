@@ -11,6 +11,7 @@ import {
       resetPassword,
 } from "../controllers/Users/forgetPassword.controller.js";
 import { changePassword } from "../controllers/Users/changePassword.controller.js";
+import { deleteAccount } from "../controllers/Users/deleteAccount.controller.js";
 
 const router = Router();
 
@@ -29,5 +30,6 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/password-forget").post(forgetPassword);
 router.route("/reset-forget").post(resetPassword);
 router.route("/change-password").post(verifyJWT, changePassword);
+router.route("/delete-account").delete(verifyJWT, deleteAccount);
 
 export default router;

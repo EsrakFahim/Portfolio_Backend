@@ -55,23 +55,25 @@ const UploadProjects = asyncHandler(async (req, res) => {
                   "Internal Server Error",
                   "Error uploading project cover image"
             );
+      console.log("owner id",req.user._id);
 
       const project = await Project.create({
             title,
             description,
             projectURL,
+            projectOwner: req.user._id,
             projectCoverImage: projectCoverImageUpload.secure_url,
             projectCoverImageAlt: projectCoverImageUpload.original_filename,
-            projectType:projectType || "" ,
-            projectStatus:projectStatus || "" ,
-            projectStartDate:projectStartDate || "" ,
-            projectEndDate:projectEndDate || "" ,
-            projectDuration:projectDuration || "" ,
-            projectRole:projectRole || "" ,
-            projectTeamSize:projectTeamSize || "" ,
-            projectTechnologies:projectTechnologies || "" ,
-            projectAchievements:projectAchievements || "" ,
-            projectClient:projectClient || "" ,
+            projectType: projectType || "",
+            projectStatus: projectStatus || "",
+            projectStartDate: projectStartDate || "",
+            projectEndDate: projectEndDate || "",
+            projectDuration: projectDuration || "",
+            projectRole: projectRole || "",
+            projectTeamSize: projectTeamSize || "",
+            projectTechnologies: projectTechnologies || "",
+            projectAchievements: projectAchievements || "",
+            projectClient: projectClient || "",
       });
 
       if (!project)

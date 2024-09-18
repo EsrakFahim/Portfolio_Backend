@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { UploadProjects } from "../controllers/Projects/UploadProjects.controller.js";
 import { upload } from "../middlewares/multer.middlewares.js";
+import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router();
 
 router.route("/upload").post(
+      verifyJWT, // Middleware to verify the JWT token
       upload.fields([
             {
                   name: "projectCoverImage", // The key expected in the form data

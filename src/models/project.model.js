@@ -3,9 +3,9 @@ import mongoose, { Schema } from "mongoose";
 // Enum for project status
 const projectStatusEnum = ["completed", "in progress", "on hold"];
 const projectTypeEnum = [
-      "web development",
-      "mobile development",
-      "data science",
+      "Web Development",
+      "Mobile Development",
+      "Data Science",
       "AI/ML",
 ];
 const feedbackRatingEnum = [1, 2, 3, 4, 5];
@@ -26,6 +26,10 @@ const projectSchema = new Schema(
                         20,
                         "Description must be at least 20 characters long",
                   ],
+            },
+            projectOwner: {
+                  type: Schema.Types.ObjectId,
+                  ref: "User",
             },
             projectURL: {
                   type: String,

@@ -13,6 +13,8 @@ import {
 import { changePassword } from "../controllers/Users/changePassword.controller.js";
 import { deleteAccount } from "../controllers/Users/deleteAccount.controller.js";
 import { refreshAccessToken } from "../controllers/Users/refreshAccessToken.controller.js";
+import { getAllUsers } from "../controllers/Users/getAllUsers.controllers.js";
+import { verifyAdmin } from "../middlewares/adminAuth.middlewares.js";
 
 const router = Router();
 
@@ -33,5 +35,8 @@ router.route("/reset-forget").post(resetPassword);
 router.route("/change-password").post(verifyJWT, changePassword);
 router.route("/delete-account").delete(verifyJWT, deleteAccount);
 router.route("/refresh-token").post(verifyJWT, refreshAccessToken);
+
+// admin routes
+router.route("/all-users").get(verifyJWT, verifyAdmin, getAllUsers);
 
 export default router;

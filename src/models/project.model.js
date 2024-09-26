@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-// Enum for project status
+// Enum for project status, type, role, and feedback rating
 const projectStatusEnum = ["completed", "in progress", "on hold"];
 const projectTypeEnum = [
       "Web Development",
@@ -8,6 +8,7 @@ const projectTypeEnum = [
       "Data Science",
       "AI/ML",
 ];
+const projectRoleEnum = ["Development", "Design", "Both"];
 const feedbackRatingEnum = [1, 2, 3, 4, 5];
 
 const projectSchema = new Schema(
@@ -47,10 +48,10 @@ const projectSchema = new Schema(
             },
             projectType: {
                   type: String,
-                  enum: {
-                        values: projectTypeEnum,
-                        message: "Invalid project type",
-                  },
+                  // enum: {
+                  //       values: projectTypeEnum,
+                  //       message: "Invalid project type",
+                  // },
                   required: [true, "Project type is required"],
             },
             projectStatus: {
@@ -68,12 +69,14 @@ const projectSchema = new Schema(
             projectEndDate: {
                   type: String,
                   required: [true, "Project end date is required"],
-                  // validate: {
-                  //       validator: function (value) {
-                  //             return value > this.projectStartDate;
-                  //       },
-                  //       message: "End date must be after the start date",
-                  // },
+                  validate: {
+                        validator: function (value) {
+                              const startDate = new Date(this.projectStartDate);
+                              const endDate = new Date(value);
+                              return endDate > startDate;
+                        },
+                        message: "End date must be after the start date",
+                  },
             },
             projectDuration: {
                   type: String,
@@ -81,6 +84,10 @@ const projectSchema = new Schema(
             },
             projectRole: {
                   type: String,
+                  enum: {
+                        values: projectRoleEnum,
+                        message: "Invalid project role",
+                  },
                   required: [true, "Your role in the project is required"],
             },
             projectTeamSize: {
@@ -111,7 +118,9 @@ const projectSchema = new Schema(
 // Virtual field to compute project duration from start to end date
 projectSchema.virtual("calculatedDuration").get(function () {
       if (this.projectStartDate && this.projectEndDate) {
-            const durationInMs = this.projectEndDate - this.projectStartDate;
+            const startDate = new Date(this.projectStartDate);
+            const endDate = new Date(this.projectEndDate);
+            const durationInMs = endDate - startDate;
             const durationInDays = Math.floor(
                   durationInMs / (1000 * 60 * 60 * 24)
             );

@@ -4,10 +4,10 @@ import { apiErrorHandler } from "../../utils/apiErrorHandler.js";
 import { Project } from "../../models/project.model.js";
 
 const getProjects = asyncHandler(async (req, res, next) => {
-      const { category = "all", page = 1, limit = 10 } = req.query; // Default values for page and limit
+      const { category, page = 1, limit = 10 } = req.query; // Default values for page and limit
 
       // Build the query object based on the category
-      const query = category === "all" ? {} : { projectType: category };
+      const query = category === "all" ? {} : { projectRole: category };
 
       // Get the projects and apply pagination
       const projects = await Project.find(query)

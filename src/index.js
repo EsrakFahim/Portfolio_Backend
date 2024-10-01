@@ -1,10 +1,13 @@
 import dotenv from "dotenv";
 import { app } from "./app.js";
 import { connectDB } from "./db/index.js";
+import { inject } from "@vercel/analytics";
 
 dotenv.config({
       path: "./env",
 });
+
+inject();
 
 connectDB()
       .then(() => {

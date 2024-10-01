@@ -36,7 +36,7 @@ const clientMessage = asyncHandler(async (req, res, next) => {
       console.log("New Message:", newMessage);
 
       if (!newMessage) {
-            return next(new apiErrorHandler(res, 500, "Error sending message"));
+            throw new apiErrorHandler(res, 500, "Error sending message");
       }
 
       try {
@@ -70,12 +70,11 @@ const clientMessage = asyncHandler(async (req, res, next) => {
                   );
       } catch (error) {
             console.error("Error sending email:", error);
-            return next(
-                  new apiErrorHandler(
-                        res,
-                        500,
-                        "Message saved but failed to send email"
-                  )
+
+            new apiErrorHandler(
+                  res,
+                  500,
+                  "Message saved but failed to send email"
             );
       }
 });

@@ -18,6 +18,14 @@ const clientMessageSchema = new mongoose.Schema({
             type: String,
             required: [true, "Message is required"],
       },
+      reqService: {
+            type: String,
+            default: "Not specified",
+      },
+      clientIP: {
+            type: String,
+            default: "Not specified",
+      },
 });
 
 const ClientMessage = mongoose.model("ClientMessage", clientMessageSchema);

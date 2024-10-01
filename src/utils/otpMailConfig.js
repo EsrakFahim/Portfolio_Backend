@@ -1,6 +1,6 @@
 const otpMainConfig = ({ otp, userEmail }) => {
       const mailOption = {
-            from: process.env.EMAIL_USER,
+            from: process.env.EMAIL_ACCOUNT,
             to: userEmail,
             subject: "Reset Your Password",
             html: `

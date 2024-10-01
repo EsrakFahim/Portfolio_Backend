@@ -15,7 +15,7 @@ const clientMessage = asyncHandler(async (req, res, next) => {
             clientEmail,
             clientMessage: message,
             reqService,
-            clientIP
+            clientIP,
       } = req.body;
 
       if (!orgName || !clientName || !clientEmail || !message) {
@@ -33,6 +33,7 @@ const clientMessage = asyncHandler(async (req, res, next) => {
             reqService: reqService || "Not specified",
             clientIP: clientIP || "Not specified",
       });
+      console.log("New Message:", newMessage);
 
       if (!newMessage) {
             return next(new apiErrorHandler(res, 500, "Error sending message"));
@@ -53,7 +54,7 @@ const clientMessage = asyncHandler(async (req, res, next) => {
                   clientEmail,
                   message,
                   reqService,
-                  clientIP
+                  clientIP,
             });
             await transporter.sendMail(adminMailOption);
 

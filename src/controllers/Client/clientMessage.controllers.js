@@ -10,7 +10,6 @@ import { transporter } from "../../Services/mailSender.js";
 
 const clientMessage = asyncHandler(async (req, res, next) => {
       const {
-            orgName,
             clientName,
             clientEmail,
             clientMessage: message,
@@ -18,7 +17,7 @@ const clientMessage = asyncHandler(async (req, res, next) => {
             clientIP,
       } = req.body;
 
-      if (!orgName || !clientName || !clientEmail || !message) {
+      if (!clientName || !clientEmail || !message) {
             return next(
                   new apiErrorHandler(res, 400, "All fields are required")
             );
@@ -26,7 +25,6 @@ const clientMessage = asyncHandler(async (req, res, next) => {
 
       // Create and save client message in the database
       const newMessage = await ClientMessage.create({
-            orgName,
             clientName,
             clientEmail,
             clientMessage: message,
@@ -49,7 +47,6 @@ const clientMessage = asyncHandler(async (req, res, next) => {
 
             // Send a notification email to you (the admin)
             const adminMailOption = notifyAdminConfig({
-                  orgName,
                   clientName,
                   clientEmail,
                   message,

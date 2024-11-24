@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const clientMessageSchema = new mongoose.Schema({
-      orgName: {
-            type: String,
-            required: [true, "Organization name is required"],
-      },
       clientName: {
             type: String,
             required: [true, "Client name is required"],

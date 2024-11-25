@@ -3,6 +3,8 @@ import { clientMessage } from "../controllers/Client/clientMessage.controllers.j
 
 const router = Router();
 
+console.log('Client Route');
+
 router.route("/").post(clientMessage);
 
 export default router;

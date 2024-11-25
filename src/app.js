@@ -25,7 +25,7 @@ const corsOptions = {
 
 // Apply middleware
 app.set("trust proxy", 1); // Trust proxies for production (e.g., Vercel)
-app.options("*", cors(corsOptions)); // Handle preflight requests
+// app.options("*", cors(corsOptions)); // Handle preflight requests
 app.use(cors(corsOptions)); // Enable CORS with the options
 app.use(cookieParser()); // Enable cookie parsing
 app.use(express.json({ limit: "50mb" })); // Support JSON payloads

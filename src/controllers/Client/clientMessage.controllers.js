@@ -17,6 +17,8 @@ const clientMessage = asyncHandler(async (req, res, next) => {
             clientIP,
       } = req.body;
 
+      console.log('Client Message:', req.body);
+
       if (!clientName || !clientEmail || !message) {
             return next(
                   new apiErrorHandler(res, 400, "All fields are required")

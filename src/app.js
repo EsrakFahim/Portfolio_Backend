@@ -4,17 +4,17 @@ import cors from "cors";
 
 const app = express();
 
-// Middleware setup
 app.use(
       cors({
-            origin: 'https://www.esrakfahim.me', // CORS configuration for the specified origin
-            credentials: true, // Allow cookies
+            origin: 'https://www.esrakfahim.me',
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            credentials: true,
       })
 );
-app.use(cookieParser()); // Enable cookie parsing
-app.use(express.json({ limit: "50mb" })); // Enable JSON parsing with a size limit
-app.use(express.urlencoded({ extended: true, limit: "50mb" })); // Support for URL-encoded data
-app.use(express.static("public")); // Serve static files from 'public' directory
+app.use(cookieParser());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.static("public"));
 
 // Routes import
 import projectRouter from "./routes/project.route.js";
@@ -22,15 +22,8 @@ import userRoute from "./routes/user.route.js";
 import clientRouter from "./routes/client.route.js";
 
 // Routes setup
-
-// #user routes
 app.use("/api/v1/user", userRoute);
-
-// # projects routes
-app.use("/api/v1/project", projectRouter); // Mount project routes
-
-// # client routes
-app.use("/api/v1/client", clientRouter); // Mount client routes
-
+app.use("/api/v1/project", projectRouter);
+app.use("/api/v1/client", clientRouter);
 
 export { app };

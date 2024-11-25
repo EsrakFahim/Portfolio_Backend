@@ -7,7 +7,7 @@ const app = express();
 // Middleware setup
 app.use(
       cors({
-            origin: process.env.SITE_ORIGIN, // CORS configuration for the specified origin
+            origin: 'https://www.esrakfahim.me', // CORS configuration for the specified origin
             credentials: true, // Allow cookies
       })
 );
